@@ -38,13 +38,16 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|min:4|max:255',
+            'name' => 'required|min:3|max:255',
             'capacity' => 'required|numeric|min:2',
         ]);
 
         $category = Category::create($validated);
 
-        return redirect()->route('categories.index');
+        session()->flash('message', 'The category was added successfully');
+        session()->flash('message-type', 'success');
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -55,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('admin.category.show', compact('category'));
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -78,14 +81,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        // $category->update($validated);
         $validated = $request->validate([
-            'name' => 'required|min:4|max:255',
-            'capacity' => 'required|numeric|min:2',
+            'name'       =>  'required|min:4|max:255',
+            'capacity'   =>  'required|numeric|min:2',
         ]);
 
         $category->update($validated);
-        return redirect()->route('categories.index');
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -98,6 +101,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 }

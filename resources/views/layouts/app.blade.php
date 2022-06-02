@@ -29,18 +29,27 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    @stack('css')
 </head>
 
 <body class="main-layout">
     <!-- loader  -->
     <div class="loader_bg">
-        <div class="loader"><img src="images/loading.gif" alt="" /></div>
+        <div class="loader"><img src="/images/loading.gif" alt="" /></div>
     </div>
     <!-- end loader -->
 
     <div class="wrapper">
         @include('partials.navbar')
         @include('partials.sidebar')
+
+        @if (session()->has('message'))
+            <div class="container">
+                <div class="alert alert-{{ session('message-type', 'info') }} alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                </div>
+            </div>
+        @endif
 
         <div id="content">
             {{-- content --}}
@@ -132,7 +141,7 @@
     <!-- Javascript files-->
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
     <!-- Scrollbar Js Files -->
     <script src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="/js/custom.js"></script>
@@ -183,4 +192,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap">
     </script>
     <!-- end google map js -->
+    @stack('js')
 </body>
